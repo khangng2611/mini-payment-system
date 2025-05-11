@@ -13,6 +13,4 @@ public class Transaction {
     private String username;
     private double amount;
     private long timestamp;
-//    @Version
-//    private int version;
 }
