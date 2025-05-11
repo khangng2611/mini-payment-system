@@ -3,6 +3,7 @@ package com.payment.system.gateway_service.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.ws.rs.core.HttpHeaders;
+import lombok.AllArgsConstructor;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,13 +13,9 @@ import reactor.core.publisher.Mono;
 import org.springframework.security.core.Authentication;
 import java.util.Collections;
 
-
+@AllArgsConstructor
 public class JwtServerAuthenticationConverter implements ServerAuthenticationConverter {
     private final String secret;
-    
-    public JwtServerAuthenticationConverter(String secret) {
-        this.secret = secret;
-    }
     
     @Override
     public Mono<Authentication> convert(ServerWebExchange exchange) {

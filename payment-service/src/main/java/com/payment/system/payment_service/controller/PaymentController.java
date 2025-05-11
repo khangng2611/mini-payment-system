@@ -1,7 +1,7 @@
 package com.payment.system.payment_service.controller;
 
+import com.payment.system.common.dto.PaymentRequest;
 import com.payment.system.common.response.ApiResponse;
-import com.payment.system.payment_service.dto.PaymentRequest;
 import com.payment.system.payment_service.dto.PaymentResponse;
 import com.payment.system.payment_service.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -17,7 +17,7 @@ spring:
           filters:
             - name: RequestBlockerFilter
               args:
-                blockedPath: /api/users/*/deduct
+                blockedPath: /api/users/deduct
         - id: payment-service
           uri: lb:http://PAYMENT-SERVICE
           predicates:

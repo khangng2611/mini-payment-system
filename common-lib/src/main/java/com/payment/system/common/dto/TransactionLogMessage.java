@@ -1,5 +1,4 @@
-package com.payment.system.transaction_service.kafka;
-
+package com.payment.system.common.dto;
 
 public record TransactionLogMessage(
     String transactionId,

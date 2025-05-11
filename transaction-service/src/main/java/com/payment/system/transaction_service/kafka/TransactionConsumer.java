@@ -1,5 +1,6 @@
 package com.payment.system.transaction_service.kafka;
 
+import com.payment.system.common.dto.TransactionLogMessage;
 import com.payment.system.transaction_service.entity.Transaction;
 import com.payment.system.transaction_service.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class TransactionConsumer {
     public void consumeTransaction(TransactionLogMessage message) {
         Transaction transaction = new Transaction();
         transaction.setTransactionId(message.transactionId());
-        transaction.setUsername(message.request().getUsername());
-        transaction.setAmount(message.request().getAmount());
+        transaction.setUsername(message.request().username());
+        transaction.setAmount(message.request().amount());
         transactionRepository.save(transaction);
     }
 }

@@ -10,7 +10,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: transactionLogMessage:com.payment.system.payment_service.kafka.TransactionLogMessage
+        spring.json.type.mapping: transactionLogMessage:com.payment.system.common.dto.TransactionLogMessage
 
 
 application:

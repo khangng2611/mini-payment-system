@@ -21,7 +21,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: '*'
-        spring.json.type.mapping: transactionLogMessage:com.payment.system.transaction_service.kafka.TransactionLogMessage
+        spring.json.type.mapping: transactionLogMessage:com.payment.system.common.dto.TransactionLogMessage
 
 eureka:
   client:

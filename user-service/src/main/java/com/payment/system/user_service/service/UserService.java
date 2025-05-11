@@ -1,5 +1,6 @@
 package com.payment.system.user_service.service;
 
+import com.payment.system.common.dto.PaymentRequest;
 import com.payment.system.user_service.dto.LoginRequest;
 import com.payment.system.user_service.dto.UserRequest;
 import com.payment.system.user_service.entity.User;
@@ -79,23 +80,24 @@ public class UserService {
     }
     
     @Transactional
-    public void deductBalance(String username, double amount, String idempotencyKey) {
+    public void deductBalance(PaymentRequest request, String idempotencyKey) {
         // Check idempotency
-        String redisKey = "idempotency:user:" + username + ":" + idempotencyKey;
+        String redisKey = "idempotency:user:" + request.username() + ":" + idempotencyKey;
         Boolean isProcessed = redisTemplate.opsForValue().setIfAbsent(redisKey, "processed", 1, TimeUnit.HOURS);
         if (isProcessed == null || !isProcessed) {
             throw new RuntimeException("Duplicate request detected");
         }
         
         // Deduct balance with optimistic locking
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsername(request.username())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        if (user.getBalance() < amount) {
+        
+        if (user.getBalance() < request.amount()) {
             throw new RuntimeException("Insufficient balance");
         }
         
         try {
-            user.setBalance(user.getBalance() - amount);
+            user.setBalance(user.getBalance() - request.amount());
             userRepository.save(user);
         } catch (OptimisticLockException e) {
             throw new RuntimeException("Concurrent update detected, please retry");

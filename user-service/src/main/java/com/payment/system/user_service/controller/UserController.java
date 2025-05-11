@@ -1,7 +1,7 @@
 package com.payment.system.user_service.controller;
 
+import com.payment.system.common.dto.PaymentRequest;
 import com.payment.system.common.response.ApiResponse;
-import com.payment.system.user_service.dto.DeductRequest;
 import com.payment.system.user_service.dto.LoginRequest;
 import com.payment.system.user_service.dto.UserRequest;
 import com.payment.system.user_service.entity.User;
@@ -36,11 +36,10 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success(balance));
     }
     
-    @PostMapping("/{username}/deduct")
-    public ResponseEntity<ApiResponse<Void>> deductBalance(@PathVariable String username,
-                                              @RequestBody DeductRequest deductRequest,
-                                              @RequestHeader("Idempotency-Key") String idempotencyKey) throws RuntimeException {
-        userService.deductBalance(username, deductRequest.getAmount(), idempotencyKey);
+    @PostMapping("/deduct")
+    public ResponseEntity<ApiResponse<Void>> deductBalance (@RequestBody PaymentRequest request,
+                                                            @RequestHeader("Idempotency-Key") String idempotencyKey) throws RuntimeException {
+        userService.deductBalance(request, idempotencyKey);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

@@ -1,8 +1,9 @@
 package com.payment.system.payment_service.user;
 
+import com.payment.system.common.dto.PaymentRequest;
+import com.payment.system.common.response.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import com.payment.system.payment_service.dto.DeductRequest;
 
 @FeignClient(
         name = "user-service",
@@ -10,11 +11,10 @@ import com.payment.system.payment_service.dto.DeductRequest;
 )
 public interface UserClient {
     @GetMapping("/{username}/balance")
-    Double getUserBalance (@PathVariable("username") String username);
+    ApiResponse<Double> getUserBalance (@PathVariable("username") String username);
     
-    @PostMapping("/{username}/deduct")
-    Void deduct(@PathVariable("username") String username,
-                @RequestBody DeductRequest deductRequest,
+    @PostMapping("/deduct")
+    Void deductBalance (@RequestBody PaymentRequest request,
                 @RequestHeader("Idempotency-Key") String idempotencyKey);
     
 }
