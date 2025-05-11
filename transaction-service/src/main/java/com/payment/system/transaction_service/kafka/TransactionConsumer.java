@@ -20,6 +20,7 @@ public class TransactionConsumer {
         transaction.setTransactionId(message.transactionId());
         transaction.setUsername(message.request().username());
         transaction.setAmount(message.request().amount());
+        transaction.setTimestamp(message.timestamp());
         transactionRepository.save(transaction);
     }
 }

@@ -29,7 +29,7 @@ public class PaymentService {
         userClient.deductBalance(request, idempotencyKey);
         
         // Log transaction asynchronously
-        transactionProducer.sendTransaction(new TransactionLogMessage(transactionId, request));
+        transactionProducer.sendTransaction(new TransactionLogMessage(transactionId, request, System.currentTimeMillis()));
         
         return new PaymentResponse(transactionId, "SUCCESS", request.amount());
     }

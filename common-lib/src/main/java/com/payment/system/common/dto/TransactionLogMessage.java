@@ -2,6 +2,7 @@ package com.payment.system.common.dto;
 
 public record TransactionLogMessage(
     String transactionId,
-    PaymentRequest request
+    PaymentRequest request,
+    long timestamp
 ) {
 }
