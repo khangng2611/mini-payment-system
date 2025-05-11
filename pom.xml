@@ -11,6 +11,7 @@
     <groupId>com.payment.system</groupId>
     <artifactId>mini-payment-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>mini-payment-system</name>
     <description>Mini Payment System Project</description>
     <properties>
@@ -20,7 +21,8 @@
     <modules>
         <module>gateway-service</module>
         <module>discovery-server</module>
-<!--        <module>user-service</module>-->
+        <module>common-lib</module>
+        <!--        <module>user-service</module>-->
 <!--        <module>payment-service</module>-->
 <!--        <module>transaction-service</module>-->
     </modules>

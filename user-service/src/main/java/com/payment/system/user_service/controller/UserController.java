@@ -1,5 +1,6 @@
 package com.payment.system.user_service.controller;
 
+import com.payment.system.common.response.ApiResponse;
 import com.payment.system.user_service.dto.DeductRequest;
 import com.payment.system.user_service.dto.LoginRequest;
 import com.payment.system.user_service.dto.UserRequest;
@@ -7,7 +8,6 @@ import com.payment.system.user_service.entity.User;
 import com.payment.system.user_service.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,38 +19,28 @@ public class UserController {
     private UserService userService;
     
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody UserRequest request) {
-        try {
-            User user = userService.register(request);
-            return ResponseEntity.ok(user);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<ApiResponse<User>> register(@Valid @RequestBody UserRequest request) throws RuntimeException {
+        User user = userService.register(request);
+        return ResponseEntity.ok(ApiResponse.success(user));
     }
     
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        try {
-            return ResponseEntity.ok(userService.login(request));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<ApiResponse<String>> login(@RequestBody LoginRequest request) throws RuntimeException {
+        String token = userService.login(request);
+        return ResponseEntity.ok(ApiResponse.success(token));
     }
     
     @GetMapping("/{username}/balance")
-    public ResponseEntity<Double> getBalance(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getBalance(username));
+    public ResponseEntity<ApiResponse<Double>> getBalance(@PathVariable String username) {
+        Double balance = userService.getBalance(username);
+        return ResponseEntity.ok(ApiResponse.success(balance));
     }
     
     @PostMapping("/{username}/deduct")
-    public ResponseEntity<String> deductBalance(@PathVariable String username,
+    public ResponseEntity<ApiResponse<Void>> deductBalance(@PathVariable String username,
                                               @RequestBody DeductRequest deductRequest,
-                                              @RequestHeader("Idempotency-Key") String idempotencyKey) {
-        try {
-            userService.deductBalance(username, deductRequest.getAmount(), idempotencyKey);
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+                                              @RequestHeader("Idempotency-Key") String idempotencyKey) throws RuntimeException {
+        userService.deductBalance(username, deductRequest.getAmount(), idempotencyKey);
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

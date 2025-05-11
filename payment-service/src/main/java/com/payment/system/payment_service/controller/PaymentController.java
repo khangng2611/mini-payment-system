@@ -1,5 +1,6 @@
 package com.payment.system.payment_service.controller;
 
+import com.payment.system.common.response.ApiResponse;
 import com.payment.system.payment_service.dto.PaymentRequest;
 import com.payment.system.payment_service.dto.PaymentResponse;
 import com.payment.system.payment_service.service.PaymentService;
@@ -18,10 +19,10 @@ public class PaymentController {
     private PaymentService paymentService;
     
     @PostMapping("/initiate")
-    public ResponseEntity<PaymentResponse> initiatePayment(@Valid @RequestBody PaymentRequest request,
-                                                           @RequestHeader("Idempotency-Key") String idempotencyKey) {
+    public ResponseEntity<ApiResponse<PaymentResponse>> initiatePayment(@Valid @RequestBody PaymentRequest request,
+                                                                        @RequestHeader("Idempotency-Key") String idempotencyKey) {
         String transactionId = UUID.randomUUID().toString();
         PaymentResponse response = paymentService.processPayment(request, transactionId, idempotencyKey);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

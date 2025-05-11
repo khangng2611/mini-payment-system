@@ -2,7 +2,6 @@ package com.payment.system.payment_service.user;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 import com.payment.system.payment_service.dto.DeductRequest;
 
 @FeignClient(
