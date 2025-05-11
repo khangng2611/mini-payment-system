@@ -2,11 +2,14 @@ package com.payment.system.payment_service.service;
 
 import com.payment.system.common.dto.PaymentRequest;
 import com.payment.system.common.dto.TransactionLogMessage;
+import com.payment.system.common.response.ApiResponse;
 import com.payment.system.payment_service.dto.PaymentResponse;
 import com.payment.system.payment_service.kafka.TransactionProducer;
 import com.payment.system.payment_service.user.UserClient;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -32,6 +35,7 @@ public class PaymentService {
         transactionProducer.sendTransaction(new TransactionLogMessage(transactionId, request, System.currentTimeMillis()));
         
         return new PaymentResponse(transactionId, "SUCCESS", request.amount());
+        
     }
     
 }

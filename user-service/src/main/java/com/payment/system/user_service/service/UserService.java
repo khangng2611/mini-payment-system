@@ -84,23 +84,23 @@ public class UserService {
         // Check idempotency
         String redisKey = "idempotency:user:" + request.username() + ":" + idempotencyKey;
         Boolean isProcessed = redisTemplate.opsForValue().setIfAbsent(redisKey, "processed", 1, TimeUnit.HOURS);
-        if (isProcessed == null || !isProcessed) {
+//        if (isProcessed == null || !isProcessed) {
             throw new RuntimeException("Duplicate request detected");
-        }
+//        }
         
-        // Deduct balance with optimistic locking
-        User user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        
-        if (user.getBalance() < request.amount()) {
-            throw new RuntimeException("Insufficient balance");
-        }
-        
-        try {
-            user.setBalance(user.getBalance() - request.amount());
-            userRepository.save(user);
-        } catch (OptimisticLockException e) {
-            throw new RuntimeException("Concurrent update detected, please retry");
-        }
+//        // Deduct balance with optimistic locking
+//        User user = userRepository.findByUsername(request.username())
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        if (user.getBalance() < request.amount()) {
+//            throw new RuntimeException("Insufficient balance");
+//        }
+//
+//        try {
+//            user.setBalance(user.getBalance() - request.amount());
+//            userRepository.save(user);
+//        } catch (OptimisticLockException e) {
+//            throw new RuntimeException("Concurrent update detected, please retry");
+//        }
     }
 }

@@ -2,6 +2,7 @@ package com.payment.system.payment_service.user;
 
 import com.payment.system.common.dto.PaymentRequest;
 import com.payment.system.common.response.ApiResponse;
+import feign.FeignException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public interface UserClient {
     ApiResponse<Double> getUserBalance (@PathVariable("username") String username);
     
     @PostMapping("/deduct")
-    Void deductBalance (@RequestBody PaymentRequest request,
-                @RequestHeader("Idempotency-Key") String idempotencyKey);
+    ApiResponse<Void> deductBalance (@RequestBody PaymentRequest request,
+                @RequestHeader("Idempotency-Key") String idempotencyKey) throws FeignException;
     
 }
